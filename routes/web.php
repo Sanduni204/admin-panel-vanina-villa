@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VillaController;
+use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -23,6 +25,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->group(function () {
-    Route::get('/admin', [AuthController::class, 'admin'])->name('admin.dashboard');
+// Public Pages
+Route::get('/villas', [PagesController::class, 'villas'])->name('pages.villas');
+Route::get('/villas/{slug}', [PagesController::class, 'villaDetail'])->name('pages.villa-detail');
+
+Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')->group(function () {
+    Route::get('/', [AuthController::class, 'admin'])->name('admin.dashboard');
+
+    // Villa Management
+    Route::resource('villas', VillaController::class);
+    Route::post('villas/reorder', [VillaController::class, 'reorder'])->name('villas.reorder');
+    Route::delete('villas/{villa}/force-delete', [VillaController::class, 'forceDelete'])->name('villas.forceDelete');
 });

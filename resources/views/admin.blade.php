@@ -40,7 +40,7 @@
                 </div>
                 <h5 class="card-title mb-2">Villas</h5>
                 <p class="text-muted small mb-3">Manage luxury properties, pricing & details</p>
-                <a href="#" class="btn btn-sm btn-primary w-100"><i class="bi bi-arrow-right"></i> Manage</a>
+                <a href="{{ route('villas.index') }}" class="btn btn-sm btn-primary w-100"><i class="bi bi-arrow-right"></i> Manage</a>
             </div>
         </div>
     </div>
