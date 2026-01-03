@@ -33,7 +33,9 @@ Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')
     Route::get('/', [AuthController::class, 'admin'])->name('admin.dashboard');
 
     // Villa Management
-    Route::resource('villas', VillaController::class);
+    // Note: Specific routes must come BEFORE resource routes to avoid conflicts
     Route::post('villas/reorder', [VillaController::class, 'reorder'])->name('villas.reorder');
+    Route::delete('villas/{villa}/media/{media}', [VillaController::class, 'deleteMedia'])->name('villas.media.delete');
     Route::delete('villas/{villa}/force-delete', [VillaController::class, 'forceDelete'])->name('villas.forceDelete');
+    Route::resource('villas', VillaController::class);
 });

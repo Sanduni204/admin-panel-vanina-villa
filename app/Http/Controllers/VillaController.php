@@ -108,8 +108,7 @@ class VillaController extends Controller
                 'price_high_season' => $validated['price_high_season'] ?? null,
                 'price_peak_season' => $validated['price_peak_season'] ?? null,
                 'max_guests' => $validated['max_guests'],
-                'bedrooms' => $validated['bedrooms'],
-                'bathrooms' => $validated['bathrooms'],
+                'min_guests' => $validated['min_guests'] ?? null,
             ]);
         }
 
@@ -181,8 +180,7 @@ class VillaController extends Controller
                     'price_high_season' => $validated['price_high_season'] ?? null,
                     'price_peak_season' => $validated['price_peak_season'] ?? null,
                     'max_guests' => $validated['max_guests'],
-                    'bedrooms' => $validated['bedrooms'],
-                    'bathrooms' => $validated['bathrooms'],
+                    'min_guests' => $validated['min_guests'] ?? null,
                 ]
             );
         }
@@ -218,8 +216,8 @@ class VillaController extends Controller
     {
         // Delete media files
         foreach ($villa->media as $media) {
-            if (file_exists(storage_path('app/public/' . $media->image_path))) {
-                unlink(storage_path('app/public/' . $media->image_path));
+            if (file_exists(public_path($media->image_path))) {
+                unlink(public_path($media->image_path));
             }
         }
 
@@ -251,10 +249,22 @@ class VillaController extends Controller
     private function storeFeaturedImage($villa, $image)
     {
         $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-        $path = "villas/{$villa->id}";
+        $path = "uploads/villas/{$villa->id}";
+        $fullPath = public_path($path);
 
-        // Store original
-        $image->storeAs("public/{$path}", $filename);
+        // Create directory if it doesn't exist
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+
+        // Move uploaded file to public directory
+        $image->move($fullPath, $filename);
+
+        // Delete old featured image file if exists
+        $oldFeaturedMedia = VillaMedia::where('villa_id', $villa->id)->where('is_featured', true)->first();
+        if ($oldFeaturedMedia && file_exists(public_path($oldFeaturedMedia->image_path))) {
+            unlink(public_path($oldFeaturedMedia->image_path));
+        }
 
         // Store as featured media
         VillaMedia::where('villa_id', $villa->id)->where('is_featured', true)->delete();
@@ -272,13 +282,19 @@ class VillaController extends Controller
     private function storeGalleryImages($villa, $images, $request)
     {
         $position = VillaMedia::where('villa_id', $villa->id)->max('position') ?? 0;
+        $path = "uploads/villas/{$villa->id}";
+        $fullPath = public_path($path);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
 
         foreach ($images as $index => $image) {
             $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $path = "villas/{$villa->id}";
 
-            // Store image
-            $image->storeAs("public/{$path}", $filename);
+            // Move uploaded file to public directory
+            $image->move($fullPath, $filename);
 
             $altTextEn = $request->input("gallery_alt_en.{$index}");
             $altTextFr = $request->input("gallery_alt_fr.{$index}");
@@ -292,6 +308,28 @@ class VillaController extends Controller
                 'position' => $position + $index + 1,
             ]);
         }
+    }
+
+    /**
+     * Delete a specific media file.
+     */
+    public function deleteMedia(Villa $villa, VillaMedia $media)
+    {
+        // Verify the media belongs to this villa
+        if ($media->villa_id !== $villa->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete the physical file
+        if (file_exists(public_path($media->image_path))) {
+            unlink(public_path($media->image_path));
+        }
+
+        // Delete the database record
+        $media->delete();
+
+        return redirect()->route('villas.edit', $villa)
+            ->with('success', 'Image removed successfully.');
     }
 
     /**
