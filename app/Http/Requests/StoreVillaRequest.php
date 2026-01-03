@@ -40,8 +40,7 @@ class StoreVillaRequest extends FormRequest
             'price_high_season' => 'nullable|numeric|min:0',
             'price_peak_season' => 'nullable|numeric|min:0',
             'max_guests' => 'required|integer|min:1|max:20',
-            'bedrooms' => 'required|integer|min:1',
-            'bathrooms' => 'required|numeric|min:0.5',
+            'min_guests' => 'nullable|integer|min:1|max:20',
             'featured_image' => 'nullable|image|mimes:jpeg,png,webp|max:5120',
             'gallery_images.*' => 'nullable|image|mimes:jpeg,png,webp|max:5120',
             'gallery_alt_en.*' => 'nullable|string|max:255',
@@ -64,8 +63,6 @@ class StoreVillaRequest extends FormRequest
             'description_fr.required' => 'French description is required',
             'price.required' => 'Price per night is required',
             'max_guests.required' => 'Maximum guests is required',
-            'bedrooms.required' => 'Number of bedrooms is required',
-            'bathrooms.required' => 'Number of bathrooms is required',
         ];
     }
 }

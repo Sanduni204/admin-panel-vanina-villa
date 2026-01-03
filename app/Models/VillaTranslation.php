@@ -21,8 +21,7 @@ class VillaTranslation extends Model
         'price_high_season',
         'price_peak_season',
         'max_guests',
-        'bedrooms',
-        'bathrooms',
+        'min_guests',
     ];
 
     protected $casts = [
@@ -30,9 +29,8 @@ class VillaTranslation extends Model
         'price_shoulder_season' => 'decimal:2',
         'price_high_season' => 'decimal:2',
         'price_peak_season' => 'decimal:2',
-        'bathrooms' => 'decimal:1',
         'max_guests' => 'integer',
-        'bedrooms' => 'integer',
+        'min_guests' => 'integer',
     ];
 
     public function villa()

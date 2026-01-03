@@ -21,7 +21,7 @@ class VillaTranslationFactory extends Factory
             'rules' => implode("\n", $this->faker->words(8)),
             'price' => $this->faker->randomFloat(2, 100, 500),
             'max_guests' => $this->faker->numberBetween(2, 20),
-            'bedrooms' => $this->faker->numberBetween(1, 6),
+            'min_guests' => $this->faker->numberBetween(1, 4),
             'bathrooms' => $this->faker->randomFloat(1, 1, 5),
         ];
     }
