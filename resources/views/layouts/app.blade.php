@@ -50,7 +50,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><h6 class="dropdown-header"><i class="bi bi-pencil-square"></i> Content Management</h6></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-house-door"></i> Villas</a></li>
+                                <li><a class="dropdown-item" href="{{ route('villas.index') }}"><i class="bi bi-house-door"></i> Villas</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-cup-hot"></i> Restaurant</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-pin-map"></i> Things to Do</a></li>
                                 <li><hr class="dropdown-divider"></li>

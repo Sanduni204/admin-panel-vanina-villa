@@ -2,20 +2,20 @@
 
 <div class="mb-3">
     <label class="form-label">{{ $label }}</label>
-    
-    <div class="row">
+
+    <div class="row g-3">
         <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-text">EN</span>
                 @if($type === 'textarea')
-                    <textarea 
+                    <textarea
                         name="{{ $field }}_en"
                         class="form-control @error($field . '_en') is-invalid @enderror"
                         @if($required) required @endif
                         placeholder="English {{ strtolower($label) }}"
                     >{{ old($field . '_en', $value_en) }}</textarea>
                 @else
-                    <input 
+                    <input
                         type="{{ $type }}"
                         name="{{ $field }}_en"
                         class="form-control @error($field . '_en') is-invalid @enderror"
@@ -29,19 +29,19 @@
                 @enderror
             </div>
         </div>
-        
+
         <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-text">FR</span>
                 @if($type === 'textarea')
-                    <textarea 
+                    <textarea
                         name="{{ $field }}_fr"
                         class="form-control @error($field . '_fr') is-invalid @enderror"
                         @if($required) required @endif
                         placeholder="French {{ strtolower($label) }}"
                     >{{ old($field . '_fr', $value_fr) }}</textarea>
                 @else
-                    <input 
+                    <input
                         type="{{ $type }}"
                         name="{{ $field }}_fr"
                         class="form-control @error($field . '_fr') is-invalid @enderror"
