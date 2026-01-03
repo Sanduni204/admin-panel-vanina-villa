@@ -93,7 +93,7 @@
             </div>
             <div class="card-body">
                 <div class="list-group list-group-flush">
-                    <div class="list-group-item quick-action d-flex align-items-start p-3">
+                    <a href="{{ route('villas.create') }}" class="list-group-item quick-action d-flex align-items-start p-3 text-decoration-none">
                         <div class="me-3">
                             <div class="module-icon bg-primary-light" style="width: 45px; height: 45px;">
                                 <i class="bi bi-plus-circle" style="font-size: 1.25rem; color: #0d6efd;"></i>
@@ -104,7 +104,7 @@
                             <p class="text-muted small mb-0">Create bilingual property listing with pricing</p>
                         </div>
                         <i class="bi bi-chevron-right text-muted"></i>
-                    </div>
+                    </a>
                     <div class="list-group-item quick-action d-flex align-items-start p-3">
                         <div class="me-3">
                             <div class="module-icon bg-success-light" style="width: 45px; height: 45px;">

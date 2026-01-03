@@ -134,6 +134,22 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
+                                <label for="min_guests" class="form-label">Minimum Guests</label>
+                                <input
+                                    type="number"
+                                    id="min_guests"
+                                    name="min_guests"
+                                    class="form-control @error('min_guests') is-invalid @enderror"
+                                    min="1"
+                                    max="20"
+                                    value="{{ old('min_guests', $enTranslation?->min_guests) }}"
+                                >
+                                @error('min_guests')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
                                 <label for="max_guests" class="form-label">Max Guests</label>
                                 <input
                                     type="number"
@@ -146,39 +162,6 @@
                                     required
                                 >
                                 @error('max_guests')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="bedrooms" class="form-label">Bedrooms</label>
-                                <input
-                                    type="number"
-                                    id="bedrooms"
-                                    name="bedrooms"
-                                    class="form-control @error('bedrooms') is-invalid @enderror"
-                                    min="1"
-                                    value="{{ old('bedrooms', $enTranslation?->bedrooms) }}"
-                                    required
-                                >
-                                @error('bedrooms')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="bathrooms" class="form-label">Bathrooms</label>
-                                <input
-                                    type="number"
-                                    id="bathrooms"
-                                    name="bathrooms"
-                                    class="form-control @error('bathrooms') is-invalid @enderror"
-                                    step="0.5"
-                                    min="0.5"
-                                    value="{{ old('bathrooms', $enTranslation?->bathrooms) }}"
-                                    required
-                                >
-                                @error('bathrooms')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -200,11 +183,19 @@
                             <div class="mb-3">
                                 <p class="text-muted">Current featured image:</p>
                                 <img
-                                    src="{{ asset('storage/' . $featuredImage->image_path) }}"
+                                    src="{{ asset($featuredImage->image_path) }}"
                                     alt="{{ $enTranslation?->title }}"
                                     class="img-fluid rounded"
                                     style="max-height: 200px; max-width: 100%;"
                                 >
+                                <button
+                                    type="submit"
+                                    form="delete-featured-{{ $featuredImage->id }}"
+                                    class="btn btn-danger btn-sm mt-2"
+                                    onclick="return confirm('Are you sure you want to remove the featured image?');"
+                                >
+                                    <i class="bi bi-trash"></i> Remove Featured Image
+                                </button>
                             </div>
                         @endif
 
@@ -240,18 +231,20 @@
                                         <div class="col-md-3">
                                             <div class="card">
                                                 <img
-                                                    src="{{ asset('storage/' . $media->image_path) }}"
+                                                    src="{{ asset($media->image_path) }}"
                                                     class="card-img-top"
                                                     alt="{{ $media->alt_text_en }}"
                                                     style="height: 150px; object-fit: cover;"
                                                 >
                                                 <div class="card-body p-2">
-                                                    <form action="#" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        <button type="button" class="btn btn-danger btn-sm w-100">
-                                                            <i class="bi bi-trash"></i> Remove
-                                                        </button>
-                                                    </form>
+                                                    <button
+                                                        type="submit"
+                                                        form="delete-media-{{ $media->id }}"
+                                                        class="btn btn-danger btn-sm w-100"
+                                                        onclick="return confirm('Are you sure you want to remove this image?');"
+                                                    >
+                                                        <i class="bi bi-trash"></i> Remove
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -321,21 +314,38 @@
                 <div class="card mt-3 border-danger">
                     <div class="card-body">
                         <p class="text-danger mb-2"><small><strong>Danger Zone</strong></small></p>
-                        <form action="{{ route('villas.destroy', $villa) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button
-                                type="submit"
-                                class="btn btn-danger btn-sm w-100"
-                                onclick="return confirm('Are you sure? This can be undone.')"
-                            >
-                                <i class="bi bi-trash"></i> Delete Villa
-                            </button>
-                        </form>
+                        <button
+                            type="submit"
+                            form="delete-villa-{{ $villa->id }}"
+                            class="btn btn-danger btn-sm w-100"
+                            onclick="return confirm('Are you sure? This can be undone.')"
+                        >
+                            <i class="bi bi-trash"></i> Delete Villa
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+    </form>
+
+    {{-- Hidden delete forms to avoid nesting inside the main form --}}
+    @if($featuredImage)
+        <form id="delete-featured-{{ $featuredImage->id }}" action="{{ route('villas.media.delete', [$villa, $featuredImage]) }}" method="POST" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endif
+
+    @foreach($villa->media()->where('is_featured', false)->get() as $media)
+        <form id="delete-media-{{ $media->id }}" action="{{ route('villas.media.delete', [$villa, $media]) }}" method="POST" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endforeach
+
+    <form id="delete-villa-{{ $villa->id }}" action="{{ route('villas.destroy', $villa) }}" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
     </form>
 </div>
 

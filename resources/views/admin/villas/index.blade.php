@@ -77,8 +77,8 @@
                         <th width="80">Image</th>
                         <th>Title</th>
                         <th width="100">Price</th>
-                        <th width="80">Beds</th>
-                        <th width="80">Guests</th>
+                        <th width="80">Min Guests</th>
+                        <th width="80">Max Guests</th>
                         <th width="80">Status</th>
                         <th width="150">Actions</th>
                     </tr>
@@ -96,7 +96,7 @@
                             <td>
                                 @if($featuredMedia)
                                     <img
-                                        src="{{ asset('storage/' . $featuredMedia->image_path) }}"
+                                        src="{{ asset($featuredMedia->image_path) }}"
                                         alt="{{ $translation->title ?? 'Villa' }}"
                                         class="img-thumbnail"
                                         width="80"
@@ -113,7 +113,7 @@
                                 <strong>{{ $translation->title ?? 'No Title' }}</strong>
                             </td>
                             <td>${{ $translation ? number_format($translation->price ?? 0, 2) : '0.00' }}</td>
-                            <td>{{ $translation->bedrooms ?? '-' }}</td>
+                            <td>{{ $translation->min_guests ?? '-' }}</td>
                             <td>{{ $translation->max_guests ?? '-' }}</td>
                             <td>
                                 @if($villa->published_at)

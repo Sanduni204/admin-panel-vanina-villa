@@ -120,6 +120,22 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
+                                <label for="min_guests" class="form-label">Minimum Guests</label>
+                                <input
+                                    type="number"
+                                    id="min_guests"
+                                    name="min_guests"
+                                    class="form-control @error('min_guests') is-invalid @enderror"
+                                    min="1"
+                                    max="20"
+                                    value="{{ old('min_guests') }}"
+                                >
+                                @error('min_guests')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
                                 <label for="max_guests" class="form-label">Max Guests</label>
                                 <input
                                     type="number"
@@ -131,40 +147,7 @@
                                     value="{{ old('max_guests') }}"
                                     required
                                 >
-                                @error('max_guests')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="bedrooms" class="form-label">Bedrooms</label>
-                                <input
-                                    type="number"
-                                    id="bedrooms"
-                                    name="bedrooms"
-                                    class="form-control @error('bedrooms') is-invalid @enderror"
-                                    min="1"
-                                    value="{{ old('bedrooms') }}"
-                                    required
-                                >
-                                @error('bedrooms')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="bathrooms" class="form-label">Bathrooms</label>
-                                <input
-                                    type="number"
-                                    id="bathrooms"
-                                    name="bathrooms"
-                                    class="form-control @error('bathrooms') is-invalid @enderror"
-                                    step="0.5"
-                                    min="0.5"
-                                    value="{{ old('bathrooms') }}"
-                                    required
-                                >
-                                @error('bathrooms')
+                                @error('min_guests')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>

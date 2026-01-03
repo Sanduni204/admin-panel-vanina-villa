@@ -30,7 +30,7 @@
             @if($featuredImage)
                 <div class="card mb-3">
                     <img
-                        src="{{ asset('storage/' . $featuredImage->image_path) }}"
+                        src="{{ asset($featuredImage->image_path) }}"
                         alt="{{ $enTranslation?->title }}"
                         class="card-img-top"
                         style="max-height: 400px; object-fit: cover;"
@@ -81,12 +81,8 @@
                             <p>{{ $enTranslation?->max_guests }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p class="mb-1"><strong>Bedrooms:</strong></p>
-                            <p>{{ $enTranslation?->bedrooms }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="mb-1"><strong>Bathrooms:</strong></p>
-                            <p>{{ $enTranslation?->bathrooms }}</p>
+                            <p class="mb-1"><strong>Min Guests:</strong></p>
+                            <p>{{ $enTranslation?->min_guests ?? 'N/A' }}</p>
                         </div>
                     </div>
                 </div>
@@ -127,7 +123,7 @@
                             @foreach($villa->media()->where('is_featured', false)->ordered()->get() as $media)
                                 <div class="col-md-4">
                                     <img
-                                        src="{{ asset('storage/' . $media->image_path) }}"
+                                        src="{{ asset($media->image_path) }}"
                                         alt="{{ $media->alt_text_en }}"
                                         class="img-fluid rounded"
                                         style="height: 200px; object-fit: cover; width: 100%;"
