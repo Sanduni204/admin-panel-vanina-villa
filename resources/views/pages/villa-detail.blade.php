@@ -25,7 +25,7 @@
             @if($featuredImage)
                 <div class="mb-4">
                     <img
-                        src="{{ asset('storage/' . $featuredImage->image_path) }}"
+                        src="{{ asset($featuredImage->image_path) }}"
                         alt="{{ $translation?->title }}"
                         class="img-fluid rounded"
                         style="max-height: 500px; object-fit: cover; width: 100%;"
@@ -37,12 +37,11 @@
             <h1 class="mb-3">{{ $translation?->title }}</h1>
 
             <div class="row mb-4 text-muted">
+                @if($translation?->min_guests)
                 <div class="col-auto">
-                    <i class="bi bi-door-closed"></i> {{ $translation?->bedrooms }} Bedrooms
+                    <i class="bi bi-person"></i> Min {{ $translation?->min_guests }} Guest{{ $translation?->min_guests > 1 ? 's' : '' }}
                 </div>
-                <div class="col-auto">
-                    <i class="bi bi-shop"></i> {{ $translation?->bathrooms }} Bathrooms
-                </div>
+                @endif
                 <div class="col-auto">
                     <i class="bi bi-people"></i> Up to {{ $translation?->max_guests }} Guests
                 </div>
@@ -78,13 +77,13 @@
                         @foreach($villa->media()->where('is_featured', false)->ordered()->get() as $media)
                             <div class="col-md-4">
                                 <a
-                                    href="{{ asset('storage/' . $media->image_path) }}"
+                                    href="{{ asset($media->image_path) }}"
                                     class="d-block overflow-hidden rounded"
                                     style="aspect-ratio: 1; cursor: pointer;"
                                     data-lightbox="villa-gallery"
                                 >
                                     <img
-                                        src="{{ asset('storage/' . $media->image_path) }}"
+                                        src="{{ asset($media->image_path) }}"
                                         alt="{{ $media->alt_text_en }}"
                                         class="w-100 h-100"
                                         style="object-fit: cover; transition: transform 0.3s;"
@@ -142,12 +141,11 @@
                     <h5 class="mb-0">Quick Info</h5>
                 </div>
                 <ul class="list-group list-group-flush">
+                    @if($translation?->min_guests)
                     <li class="list-group-item">
-                        <strong>Bedrooms:</strong> {{ $translation?->bedrooms }}
+                        <strong>Min Guests:</strong> {{ $translation?->min_guests }}
                     </li>
-                    <li class="list-group-item">
-                        <strong>Bathrooms:</strong> {{ $translation?->bathrooms }}
-                    </li>
+                    @endif
                     <li class="list-group-item">
                         <strong>Max Guests:</strong> {{ $translation?->max_guests }}
                     </li>
@@ -191,7 +189,7 @@
                     <div class="card h-100">
                         @if($similarFeaturedMedia)
                             <img
-                                src="{{ asset('storage/' . $similarFeaturedMedia->image_path) }}"
+                                src="{{ asset($similarFeaturedMedia->image_path) }}"
                                 alt="{{ $similarTranslation?->title }}"
                                 class="card-img-top"
                                 style="height: 200px; object-fit: cover;"

@@ -74,7 +74,7 @@
                 <div class="card h-100 shadow-sm transition" style="transition: transform 0.3s;">
                     @if($featuredMedia)
                         <img
-                            src="{{ asset('storage/' . $featuredMedia->image_path) }}"
+                            src="{{ asset($featuredMedia->image_path) }}"
                             alt="{{ $translation?->title }}"
                             class="card-img-top"
                             style="height: 250px; object-fit: cover;"
@@ -97,7 +97,7 @@
 
                         <div class="mb-2">
                             <small class="text-muted">
-                                <i class="bi bi-door-closed"></i> {{ $translation?->bedrooms }} Bedrooms
+                                <i class="bi bi-people"></i> Up to {{ $translation?->max_guests }} Guests
                                 <i class="bi bi-people"></i> {{ $translation?->max_guests }} Guests
                             </small>
                         </div>
