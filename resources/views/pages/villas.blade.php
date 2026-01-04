@@ -88,10 +88,6 @@
                         </div>
                     @endif
 
-                    @if($villa->featured)
-                        <span class="badge bg-danger position-absolute top-0 end-0 m-2">Featured</span>
-                    @endif
-
                     <div class="card-body">
                         <h5 class="card-title">{{ $translation?->title }}</h5>
 

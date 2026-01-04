@@ -59,7 +59,7 @@
 
                         <x-bilingual-editor
                             field="amenities"
-                            label="Amenities"
+                            label="Features"
                             type="textarea"
                             :value_en="$enTranslation?->amenities"
                             :value_fr="$frTranslation?->amenities"
@@ -265,38 +265,7 @@
                         <h5 class="mb-0">Publication Settings</h5>
                     </div>
                     <div class="card-body">
-                        <div class="form-check mb-3">
-                            <input
-                                type="checkbox"
-                                id="published"
-                                name="published"
-                                class="form-check-input"
-                                value="1"
-                                {{ old('published', $villa->published_at) ? 'checked' : '' }}
-                            >
-                            <label class="form-check-label" for="published">
-                                Published
-                            </label>
-                            @if($villa->published_at)
-                                <small class="text-muted d-block">
-                                    Published: {{ $villa->published_at->format('M d, Y') }}
-                                </small>
-                            @endif
-                        </div>
-
-                        <div class="form-check mb-3">
-                            <input
-                                type="checkbox"
-                                id="featured"
-                                name="featured"
-                                class="form-check-input"
-                                value="1"
-                                {{ old('featured', $villa->featured) ? 'checked' : '' }}
-                            >
-                            <label class="form-check-label" for="featured">
-                                Featured villa
-                            </label>
-                        </div>
+                        <!-- Status checkboxes removed -->
                     </div>
                 </div>
 

@@ -53,10 +53,10 @@
                 <p class="lead">{{ $translation?->description }}</p>
             </div>
 
-            <!-- Amenities -->
+            <!-- Features -->
             @if($translation?->amenities)
                 <div class="mb-4">
-                    <h3>Amenities</h3>
+                    <h3>Features</h3>
                     <div style="white-space: pre-wrap;">{{ $translation?->amenities }}</div>
                 </div>
             @endif
@@ -154,15 +154,6 @@
                     </li>
                 </ul>
             </div>
-
-            @if($villa->featured)
-                <div class="card mt-3 border-warning bg-light">
-                    <div class="card-body text-center">
-                        <i class="bi bi-star-fill text-warning fs-3"></i>
-                        <p class="mb-0 mt-2"><strong>Featured Property</strong></p>
-                    </div>
-                </div>
-            @endif
         </div>
     </div>
 

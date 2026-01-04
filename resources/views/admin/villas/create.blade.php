@@ -49,7 +49,7 @@
 
                         <x-bilingual-editor
                             field="amenities"
-                            label="Amenities"
+                            label="Features"
                             type="textarea"
                         />
 
@@ -197,32 +197,7 @@
                         <h5 class="mb-0">Publication Settings</h5>
                     </div>
                     <div class="card-body">
-                        <div class="form-check mb-3">
-                            <input
-                                type="checkbox"
-                                id="published"
-                                name="published"
-                                class="form-check-input"
-                                value="1"
-                                {{ old('published') ? 'checked' : '' }}
-                            >
-                            <label class="form-check-label" for="published">
-                                Publish immediately
-                            </label>
-                        </div>
-
-                        <div class="form-check mb-3">
-                            <input
-                                type="checkbox"
-                                id="featured"
-                                name="featured"
-                                class="form-check-input"
-                                value="1"
-                                {{ old('featured') ? 'checked' : '' }}
-                            >
-                            <label class="form-check-label" for="featured">
-                                Mark as featured
-                            </label>
+                        <!-- Status checkboxes removed -->
                         </div>
                     </div>
                 </div>

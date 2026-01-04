@@ -79,7 +79,6 @@
                         <th width="100">Price</th>
                         <th width="80">Min Guests</th>
                         <th width="80">Max Guests</th>
-                        <th width="80">Status</th>
                         <th width="150">Actions</th>
                     </tr>
                 </thead>
@@ -115,16 +114,6 @@
                             <td>${{ $translation ? number_format($translation->price ?? 0, 2) : '0.00' }}</td>
                             <td>{{ $translation->min_guests ?? '-' }}</td>
                             <td>{{ $translation->max_guests ?? '-' }}</td>
-                            <td>
-                                @if($villa->published_at)
-                                    <span class="badge bg-success">Published</span>
-                                @else
-                                    <span class="badge bg-warning">Draft</span>
-                                @endif
-                                @if($villa->featured)
-                                    <span class="badge bg-danger">Featured</span>
-                                @endif
-                            </td>
                             <td>
                                 <a href="{{ route('villas.edit', $villa) }}" class="btn btn-sm btn-info" title="Edit">
                                     <i class="bi bi-pencil"></i>

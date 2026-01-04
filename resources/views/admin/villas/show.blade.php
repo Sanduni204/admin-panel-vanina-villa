@@ -88,11 +88,11 @@
                 </div>
             </div>
 
-            <!-- Amenities -->
+            <!-- Features -->
             @if($enTranslation?->amenities)
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="mb-0">Amenities</h5>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-0">Features</h5>
                     </div>
                     <div class="card-body">
                         {!! nl2br(e($enTranslation?->amenities)) !!}
@@ -143,21 +143,8 @@
                     <h5 class="mb-0">Status</h5>
                 </div>
                 <div class="card-body">
-                    <p class="mb-2">
-                        <strong>Publication:</strong><br>
-                        @if($villa->published_at)
-                            <span class="badge bg-success">Published</span><br>
-                            <small class="text-muted">{{ $villa->published_at->format('M d, Y') }}</small>
-                        @else
-                            <span class="badge bg-warning">Draft</span>
-                        @endif
-                    </p>
-
-                    @if($villa->featured)
-                        <p class="mb-0">
-                            <strong>Featured:</strong><br>
-                            <span class="badge bg-danger">Yes</span>
-                        </p>
+                    <!-- Status info removed -->
+                </div>
                     @endif
                 </div>
             </div>
