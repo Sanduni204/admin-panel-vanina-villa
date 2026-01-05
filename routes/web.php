@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\VillaController;
+use App\Http\Controllers\DineRelaxController;
+use App\Http\Controllers\DineRelaxMenuController;
+use App\Http\Controllers\DineRelaxPageController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\VillaController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -31,6 +34,11 @@ Route::middleware('auth')->group(function () {
 // Public Pages
 Route::get('/villas', [PagesController::class, 'villas'])->name('pages.villas');
 Route::get('/villas/{slug}', [PagesController::class, 'villaDetail'])->name('pages.villa-detail');
+Route::get('/dine-relax', [DineRelaxPageController::class, 'show'])->name('dine-relax.show');
+Route::get('/dine-relax/menu/{type}/download', [DineRelaxMenuController::class, 'download'])
+    ->whereIn('type', ['beverage', 'snacking', 'today', 'breakfast'])
+    ->middleware('signed')
+    ->name('dine-relax.menu.download');
 
 Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'admin'])->name('admin.dashboard');
@@ -41,4 +49,24 @@ Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')
     Route::delete('villas/{villa}/media/{media}', [VillaController::class, 'deleteMedia'])->name('villas.media.delete');
     Route::delete('villas/{villa}/force-delete', [VillaController::class, 'forceDelete'])->name('villas.forceDelete');
     Route::resource('villas', VillaController::class);
+
+    // Dine & Relax
+    Route::get('dine-relax', [DineRelaxController::class, 'edit'])->name('dine-relax.edit');
+    Route::post('dine-relax', [DineRelaxController::class, 'update'])->name('dine-relax.update');
+
+    // Dine & Relax Hero
+    Route::get('dine-relax/hero/edit', [DineRelaxController::class, 'heroEdit'])->name('dine-relax.hero.edit');
+    Route::put('dine-relax/hero', [DineRelaxController::class, 'heroUpdate'])->name('dine-relax.hero.update');
+
+    // Dine & Relax Menus
+    Route::get('dine-relax/menus', [DineRelaxMenuController::class, 'index'])->name('dine-relax.menus.index');
+    Route::post('dine-relax/menus/{type}', [DineRelaxMenuController::class, 'storeOrUpdate'])->name('dine-relax.menus.save');
+    Route::post('dine-relax/menus/{type}/toggle', [DineRelaxMenuController::class, 'toggle'])->name('dine-relax.menus.toggle');
+
+    // Dine & Relax Blocks
+    Route::get('dine-relax/blocks/create', [DineRelaxController::class, 'blockCreate'])->name('dine-relax.blocks.create');
+    Route::post('dine-relax/blocks', [DineRelaxController::class, 'blockStore'])->name('dine-relax.blocks.store');
+    Route::get('dine-relax/blocks/{block}/edit', [DineRelaxController::class, 'blockEdit'])->name('dine-relax.blocks.edit');
+    Route::put('dine-relax/blocks/{block}', [DineRelaxController::class, 'blockStore'])->whereNumber('block')->name('dine-relax.blocks.update');
+    Route::delete('dine-relax/blocks/{block}', [DineRelaxController::class, 'blockDelete'])->name('dine-relax.blocks.delete');
 });

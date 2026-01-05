@@ -51,9 +51,9 @@
                 <div class="module-icon bg-success-light mb-3">
                     <i class="bi bi-cup-hot" style="font-size: 1.75rem; color: #198754;"></i>
                 </div>
-                <h5 class="card-title mb-2">Restaurant</h5>
-                <p class="text-muted small mb-3">Daily specials & menu management</p>
-                <a href="#" class="btn btn-sm btn-success w-100"><i class="bi bi-arrow-right"></i> Manage</a>
+                <h5 class="card-title mb-2">Dine & Relax</h5>
+                <p class="text-muted small mb-3">Menus, highlights & gallery</p>
+                <a href="{{ route('dine-relax.edit') }}" class="btn btn-sm btn-success w-100"><i class="bi bi-arrow-right"></i> Manage</a>
             </div>
         </div>
     </div>
@@ -105,18 +105,18 @@
                         </div>
                         <i class="bi bi-chevron-right text-muted"></i>
                     </a>
-                    <div class="list-group-item quick-action d-flex align-items-start p-3">
+                    <a href="{{ route('dine-relax.menus.index') }}" class="list-group-item quick-action d-flex align-items-start p-3 text-decoration-none">
                         <div class="me-3">
                             <div class="module-icon bg-success-light" style="width: 45px; height: 45px;">
                                 <i class="bi bi-pencil-square" style="font-size: 1.25rem; color: #198754;"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="mb-1">Update Menu</h6>
-                            <p class="text-muted small mb-0">Edit restaurant daily specials & pricing</p>
+                            <h6 class="mb-1">Menus</h6>
+                            <p class="text-muted small mb-0">Manage Dine & Relax menu PDFs</p>
                         </div>
                         <i class="bi bi-chevron-right text-muted"></i>
-                    </div>
+                    </a>
                     <div class="list-group-item quick-action d-flex align-items-start p-3">
                         <div class="me-3">
                             <div class="module-icon bg-info-light" style="width: 45px; height: 45px;">
