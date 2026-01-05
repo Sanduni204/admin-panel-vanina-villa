@@ -22,7 +22,6 @@ class VillaTranslationFactory extends Factory
             'price' => $this->faker->randomFloat(2, 100, 500),
             'max_guests' => $this->faker->numberBetween(2, 20),
             'min_guests' => $this->faker->numberBetween(1, 4),
-            'bathrooms' => $this->faker->randomFloat(1, 1, 5),
         ];
     }
 }

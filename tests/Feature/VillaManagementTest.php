@@ -47,8 +47,7 @@ class VillaManagementTest extends TestCase
             'description_fr' => 'Une belle villa avec vue sur l\'océan',
             'price' => 250.00,
             'max_guests' => 8,
-            'bedrooms' => 4,
-            'bathrooms' => 3,
+            'min_guests' => 2,
             'featured' => false,
             'published' => true,
         ];
@@ -96,8 +95,7 @@ class VillaManagementTest extends TestCase
             'description_fr' => 'Description mise à jour',
             'price' => 300.00,
             'max_guests' => 10,
-            'bedrooms' => 5,
-            'bathrooms' => 4,
+            'min_guests' => 3,
             'slug' => 'test-villa',
         ];
 
@@ -149,10 +147,7 @@ class VillaManagementTest extends TestCase
             'title_fr',
             'description_en',
             'description_fr',
-            'price',
             'max_guests',
-            'bedrooms',
-            'bathrooms',
         ]);
     }
 
