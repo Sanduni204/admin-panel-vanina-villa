@@ -36,7 +36,6 @@ Route::get('/villas', [PagesController::class, 'villas'])->name('pages.villas');
 Route::get('/villas/{slug}', [PagesController::class, 'villaDetail'])->name('pages.villa-detail');
 Route::get('/dine-relax', [DineRelaxPageController::class, 'show'])->name('dine-relax.show');
 Route::get('/dine-relax/menu/{type}/download', [DineRelaxMenuController::class, 'download'])
-    ->whereIn('type', ['beverage', 'snacking', 'today', 'breakfast'])
     ->middleware('signed')
     ->name('dine-relax.menu.download');
 
@@ -60,7 +59,11 @@ Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')
 
     // Dine & Relax Menus
     Route::get('dine-relax/menus', [DineRelaxMenuController::class, 'index'])->name('dine-relax.menus.index');
+    Route::get('dine-relax/menus/create', [DineRelaxMenuController::class, 'create'])->name('dine-relax.menus.create');
+    Route::get('dine-relax/menus/{type}/edit', [DineRelaxMenuController::class, 'edit'])->name('dine-relax.menus.edit');
+    Route::post('dine-relax/menus/store', [DineRelaxMenuController::class, 'store'])->name('dine-relax.menus.store');
     Route::post('dine-relax/menus/{type}', [DineRelaxMenuController::class, 'storeOrUpdate'])->name('dine-relax.menus.save');
+    Route::delete('dine-relax/menus/{type}', [DineRelaxMenuController::class, 'delete'])->name('dine-relax.menus.delete');
     Route::post('dine-relax/menus/{type}/toggle', [DineRelaxMenuController::class, 'toggle'])->name('dine-relax.menus.toggle');
 
     // Dine & Relax Blocks

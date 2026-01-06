@@ -10,12 +10,15 @@
         'breakfast' => 'linear-gradient(135deg,#11998e,#38ef7d)',
     ][$menu->type] ?? 'linear-gradient(135deg,#1f4037,#99f2c8)';
     $cardImage = $menu->card_image_path ? asset('storage/' . $menu->card_image_path) : null;
+    $cardAlt = app()->getLocale() === 'fr'
+        ? ($menu->card_image_alt_fr ?: $menu->card_image_alt)
+        : ($menu->card_image_alt ?: $menu->card_image_alt_fr);
 @endphp
 
 <div class="card h-100 shadow-sm border-0 overflow-hidden">
     <div class="ratio ratio-16x9" style="background: {{ $bg }};">
         @if($cardImage)
-            <img src="{{ $cardImage }}" alt="{{ $menu->card_image_alt }}" class="w-100 h-100" style="object-fit: cover;">
+            <img src="{{ $cardImage }}" alt="{{ $cardAlt }}" class="w-100 h-100" style="object-fit: cover;">
             <div class="position-absolute bottom-0 start-0 end-0 p-3 text-white" style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);">
                 <span class="small text-uppercase fw-semibold">{{ $typeLabel }}</span>
                 <strong class="fs-5 d-block">{{ $translation?->title }}</strong>
