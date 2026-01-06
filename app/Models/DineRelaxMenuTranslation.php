@@ -13,6 +13,7 @@ class DineRelaxMenuTranslation extends Model
         'dine_relax_menu_id',
         'locale',
         'title',
+        'description',
         'button_label',
         'version_note',
     ];

@@ -16,6 +16,7 @@ class DineRelaxMenu extends Model
         'file_mime',
         'card_image_path',
         'card_image_alt',
+        'card_image_alt_fr',
         'is_active',
         'display_order',
     ];
