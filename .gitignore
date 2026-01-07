@@ -30,3 +30,6 @@ nul
 !storage/app/public/**/.gitkeep
 !public/uploads/
 !public/uploads/**/.gitkeep
+# Ignore actual villa uploads, keep .gitkeep tracked
+public/uploads/villas/
+!public/uploads/villas/.gitkeep
