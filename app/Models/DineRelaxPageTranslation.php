@@ -17,6 +17,7 @@ class DineRelaxPageTranslation extends Model
         'hero_lead',
         'meta_title',
         'meta_description',
+        'menus_description',
         'is_published',
     ];
 

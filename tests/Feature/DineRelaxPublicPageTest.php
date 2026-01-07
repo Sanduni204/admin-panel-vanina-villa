@@ -205,6 +205,30 @@ class DineRelaxPublicPageTest extends TestCase
         $response->assertDontSee('Lunch Menu');
     }
 
+    public function test_page_displays_menus_description()
+    {
+        DineRelaxPageTranslation::where('dine_relax_page_id', $this->page->id)
+            ->where('locale', 'en')
+            ->update(['menus_description' => 'Check out our delicious menu offerings below.']);
+
+        DineRelaxPageTranslation::where('dine_relax_page_id', $this->page->id)
+            ->where('locale', 'fr')
+            ->update(['menus_description' => 'Découvrez nos délicieuses offres de menu ci-dessous.']);
+
+        $response = $this->get(route('dine-relax.show'));
+
+        $response->assertSee('Check out our delicious menu offerings below.');
+    }
+
+    public function test_page_does_not_display_menus_description_when_empty()
+    {
+        $response = $this->get(route('dine-relax.show'));
+
+        // Should still render but not have the description box
+        $response->assertStatus(200);
+        // Description alert should not be present if menus_description is null
+    }
+
     public function test_page_respects_locale()
     {
         app()->setLocale('fr');

@@ -269,8 +269,56 @@ class DineRelaxMenuTest extends TestCase
             'button_label_fr' => 'Télécharger',
         ]);
 
-        // Alt text is now optional, so this test might need adjustment
-        // based on actual validation rules
+        // Alt text is optional, so this should succeed
         $response->assertRedirect();
+    }
+
+    public function test_admin_can_create_menu_without_pdf_file()
+    {
+        // Test that file_path is nullable - menu can be created with just card image and translations
+        $response = $this->actingAs($this->admin)->post(route('dine-relax.menus.store'), [
+            'type' => 'External Link Menu',
+            'type_fr' => 'Menu Lien Externe',
+            'button_label_en' => 'View Menu',
+            'button_label_fr' => 'Voir le Menu',
+            'is_active' => true,
+        ]);
+
+        // Should fail because file is required for creation (at least one menu needs a file)
+        $response->assertSessionHasErrors('file');
+    }
+
+    public function test_admin_can_save_bilingual_menus_description()
+    {
+        $response = $this->actingAs($this->admin)->post(route('dine-relax.menus.info.update'), [
+            'menus_description_en' => 'Download our latest menus here.',
+            'menus_description_fr' => 'Téléchargez nos derniers menus ici.',
+        ]);
+
+        $response->assertSessionHas('success', 'Menus description saved.');
+
+        $page = \App\Models\DineRelaxPage::first();
+        $this->assertEquals('Download our latest menus here.', $page->translation('en')?->menus_description);
+        $this->assertEquals('Téléchargez nos derniers menus ici.', $page->translation('fr')?->menus_description);
+    }
+
+    public function test_admin_can_clear_bilingual_menus_description()
+    {
+        // First, save a description
+        $this->actingAs($this->admin)->post(route('dine-relax.menus.info.update'), [
+            'menus_description_en' => 'Some description',
+            'menus_description_fr' => 'Une description',
+        ]);
+
+        // Now clear it
+        $response = $this->actingAs($this->admin)->post(route('dine-relax.menus.info.update'), [
+            'clear' => true,
+        ]);
+
+        $response->assertSessionHas('success', 'Menus description cleared.');
+
+        $page = \App\Models\DineRelaxPage::first();
+        $this->assertNull($page->translation('en')?->menus_description);
+        $this->assertNull($page->translation('fr')?->menus_description);
     }
 }

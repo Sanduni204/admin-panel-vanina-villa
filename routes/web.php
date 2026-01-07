@@ -57,6 +57,9 @@ Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')
     Route::get('dine-relax/hero/edit', [DineRelaxController::class, 'heroEdit'])->name('dine-relax.hero.edit');
     Route::put('dine-relax/hero', [DineRelaxController::class, 'heroUpdate'])->name('dine-relax.hero.update');
 
+    // Dine & Relax Menus common description
+    Route::post('dine-relax/menus/info', [DineRelaxController::class, 'menuInfoUpdate'])->name('dine-relax.menus.info.update');
+
     // Dine & Relax Menus
     Route::get('dine-relax/menus', [DineRelaxMenuController::class, 'index'])->name('dine-relax.menus.index');
     Route::get('dine-relax/menus/create', [DineRelaxMenuController::class, 'create'])->name('dine-relax.menus.create');

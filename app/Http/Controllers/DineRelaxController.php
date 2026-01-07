@@ -73,6 +73,42 @@ class DineRelaxController extends Controller
     }
 
     /**
+     * Create/update a common bilingual description for the Menus section.
+     */
+    public function menuInfoUpdate(Request $request)
+    {
+        $request->validate([
+            'menus_description_en' => 'nullable|string',
+            'menus_description_fr' => 'nullable|string',
+            'clear' => 'sometimes|boolean',
+        ]);
+
+        $page = DineRelaxPage::firstOrCreate([]);
+
+        foreach (['en', 'fr'] as $locale) {
+            $value = $request->boolean('clear') ? null : $request->input("menus_description_{$locale}");
+
+            // Get existing translation or create new one
+            $translation = $page->translations()->where('locale', $locale)->first();
+            
+            if ($translation) {
+                $translation->update(['menus_description' => $value]);
+            } else {
+                // Create with required fields if it doesn't exist
+                DineRelaxPageTranslation::create([
+                    'dine_relax_page_id' => $page->id,
+                    'locale' => $locale,
+                    'hero_title' => '',
+                    'heading' => '',
+                    'menus_description' => $value,
+                ]);
+            }
+        }
+
+        return back()->with('success', $request->boolean('clear') ? 'Menus description cleared.' : 'Menus description saved.');
+    }
+
+    /**
      * Show form to create a new block.
      */
     public function blockCreate()

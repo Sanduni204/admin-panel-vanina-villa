@@ -147,10 +147,30 @@
         </div>
     </div>
 
-    <!-- Menus Section (Link to separate page) -->
+    <!-- Menus Section (Common description + link) -->
     <div class="card">
-        <div class="card-header">Menus</div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Menus</span>
+        </div>
         <div class="card-body">
+            <form action="{{ route('dine-relax.menus.info.update') }}" method="POST" class="mb-4">
+                @csrf
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Menus Description (EN)</label>
+                        <textarea name="menus_description_en" class="form-control" rows="3" placeholder="Optional blurb shown above menu cards on public page.">{{ old('menus_description_en', $page->translation('en')?->menus_description) }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Description des menus (FR)</label>
+                        <textarea name="menus_description_fr" class="form-control" rows="3" placeholder="Texte optionnel au-dessus des cartes de menu.">{{ old('menus_description_fr', $page->translation('fr')?->menus_description) }}</textarea>
+                    </div>
+                </div>
+                <div class="mt-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Save Description</button>
+                    <button type="submit" name="clear" value="1" class="btn btn-outline-danger" onclick="return confirm('Clear both EN and FR descriptions?');"><i class="bi bi-x-circle"></i> Clear</button>
+                </div>
+            </form>
+
             <a href="{{ route('dine-relax.menus.index') }}" class="btn btn-primary">Manage Menus</a>
         </div>
     </div>

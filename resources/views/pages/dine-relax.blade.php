@@ -131,6 +131,14 @@
                     <h2 class="mb-0">Download our menus</h2>
                 </div>
             </div>
+            @php
+                $menusDescription = $page->translation()?->menus_description;
+            @endphp
+            @if($menusDescription)
+                <div class="alert alert-info mb-4" style="background-color: #e7f3ff; border-color: #b3d9ff; color: #004085;">
+                    {{ $menusDescription }}
+                </div>
+            @endif
             <div class="row g-4">
                 @forelse($menus as $menu)
                     <div class="col-md-6 col-lg-3">
