@@ -90,7 +90,7 @@ class DineRelaxController extends Controller
 
             // Get existing translation or create new one
             $translation = $page->translations()->where('locale', $locale)->first();
-            
+
             if ($translation) {
                 $translation->update(['menus_description' => $value]);
             } else {
