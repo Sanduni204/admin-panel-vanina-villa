@@ -3,48 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password as PasswordFacade;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 
 class AuthController extends Controller
 {
+
+    protected array $roleRedirects = [
+        'admin' => 'admin.dashboard',
+        'user' => 'dashboard',
+    ];
+
     public function showRegisterForm(): View
     {
         return view('auth.register');
     }
 
-    public function register(Request $request): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
-        $request->merge([
-            'name' => strip_tags($request->input('name')),
-            'email' => strtolower(trim($request->input('email'))),
-        ]);
-
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols(),
-            ],
-            'role' => ['required', 'in:user,admin'],
-        ]);
-
-        // Admin role requires vaninavilla.com email domain
-        if ($data['role'] === 'admin' && ! str_ends_with($data['email'], '@vaninavilla.com')) {
-            return back()->withErrors([
-                'email' => 'This email is not from an official administrative address.',
-            ])->withInput();
-        }
+        $data = $request->validated();
 
         $user = User::create([
             'name' => $data['name'],
@@ -63,16 +50,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        $request->merge([
-            'email' => strtolower(trim($request->input('email'))),
-        ]);
-
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->validated();
 
         $this->ensureIsNotRateLimited($request);
 
@@ -144,7 +124,7 @@ class AuthController extends Controller
 
     private function redirectForRole(User $user): string
     {
-        return $user->role === 'admin' ? route('admin.dashboard') : route('dashboard');
+        return route($this->roleRedirects[$user->role] ?? 'dashboard');
     }
 
     public function showForgotPasswordForm(): View
@@ -156,11 +136,9 @@ class AuthController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        $status = PasswordFacade::sendResetLink(
-            $request->only('email')
-        );
+        $status = Password::sendResetLink($request->only('email'));
 
-        return $status === PasswordFacade::RESET_LINK_SENT
+        return $status === Password::RESET_LINK_SENT
             ? back()->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
@@ -170,28 +148,18 @@ class AuthController extends Controller
         return view('auth.reset-password', ['token' => $token, 'email' => request('email')]);
     }
 
-    public function resetPassword(Request $request): RedirectResponse
+    public function resetPassword(ResetPasswordRequest $request): RedirectResponse
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols(),
-            ],
-        ]);
+        $data = $request->validated();
 
-        $status = PasswordFacade::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
+        $status = Password::reset(
+            $data,
+            function (User $user, string $password) {
+                $user->forceFill(['password' => Hash::make($password)])->save();
             }
         );
 
-        return $status === PasswordFacade::PASSWORD_RESET
+        return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
