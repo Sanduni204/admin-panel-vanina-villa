@@ -1,4 +1,4 @@
-<h1 align="center">Vanina Villa Admin Portal</h1>
+<h1 align="center">Vanina villa Admin Portal</h1>
 
 Role-based admin and user portal built with Laravel 11, featuring custom authentication flows, an admin dashboard, and activity logging.
 
@@ -68,4 +68,4 @@ php artisan test
 - Ensure storage is writable (storage, bootstrap/cache)
 
 ---
-Maintained for the Vanina Villa project. Contributions welcome via PRs.
+Maintained for the Vanina villa project. Contributions welcome via PRs.
