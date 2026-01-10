@@ -40,11 +40,10 @@
                 </div>
                 <h5 class="card-title mb-2">Villas</h5>
                 <p class="text-muted small mb-3">Manage luxury properties, pricing & details</p>
-                <a href="{{ route('villas.index') }}" class="btn btn-sm btn-primary w-100"><i class="bi bi-arrow-right"></i> Manage</a>
+                <a href="#" class="btn btn-sm btn-primary w-100"><i class="bi bi-arrow-right"></i> Manage</a>
             </div>
         </div>
     </div>
-
     <div class="col-md-3">
         <div class="card module-card shadow-sm h-100 bg-white">
             <div class="card-body">
@@ -93,7 +92,7 @@
             </div>
             <div class="card-body">
                 <div class="list-group list-group-flush">
-                    <a href="{{ route('villas.create') }}" class="list-group-item quick-action d-flex align-items-start p-3 text-decoration-none">
+                    <a href="#" class="list-group-item quick-action d-flex align-items-start p-3 text-decoration-none">
                         <div class="me-3">
                             <div class="module-icon bg-primary-light" style="width: 45px; height: 45px;">
                                 <i class="bi bi-plus-circle" style="font-size: 1.25rem; color: #0d6efd;"></i>

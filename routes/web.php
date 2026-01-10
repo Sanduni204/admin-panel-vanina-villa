@@ -5,7 +5,6 @@ use App\Http\Controllers\DineRelaxController;
 use App\Http\Controllers\DineRelaxMenuController;
 use App\Http\Controllers\DineRelaxPageController;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\VillaController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -32,8 +31,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Public Pages
-Route::get('/villas', [PagesController::class, 'villas'])->name('pages.villas');
-Route::get('/villas/{slug}', [PagesController::class, 'villaDetail'])->name('pages.villa-detail');
 Route::get('/dine-relax', [DineRelaxPageController::class, 'show'])->name('dine-relax.show');
 Route::get('/dine-relax/menu/{type}/download', [DineRelaxMenuController::class, 'download'])
     ->middleware('signed')
@@ -41,13 +38,6 @@ Route::get('/dine-relax/menu/{type}/download', [DineRelaxMenuController::class, 
 
 Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'admin'])->name('admin.dashboard');
-
-    // Villa Management
-    // Note: Specific routes must come BEFORE resource routes to avoid conflicts
-    Route::post('villas/reorder', [VillaController::class, 'reorder'])->name('villas.reorder');
-    Route::delete('villas/{villa}/media/{media}', [VillaController::class, 'deleteMedia'])->name('villas.media.delete');
-    Route::delete('villas/{villa}/force-delete', [VillaController::class, 'forceDelete'])->name('villas.forceDelete');
-    Route::resource('villas', VillaController::class);
 
     // Dine & Relax
     Route::get('dine-relax', [DineRelaxController::class, 'edit'])->name('dine-relax.edit');
