@@ -5,6 +5,7 @@ use App\Http\Controllers\DineRelaxController;
 use App\Http\Controllers\DineRelaxMenuController;
 use App\Http\Controllers\DineRelaxPageController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\VillaPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -65,4 +66,18 @@ Route::middleware(['auth', 'role:admin', 'admin', 'log.admin'])->prefix('admin')
     Route::get('dine-relax/blocks/{block}/edit', [DineRelaxController::class, 'blockEdit'])->name('dine-relax.blocks.edit');
     Route::put('dine-relax/blocks/{block}', [DineRelaxController::class, 'blockStore'])->whereNumber('block')->name('dine-relax.blocks.update');
     Route::delete('dine-relax/blocks/{block}', [DineRelaxController::class, 'blockDelete'])->name('dine-relax.blocks.delete');
+
+    // Villa Pages
+    Route::get('villa-pages/global', [VillaPageController::class, 'globalPageEdit'])->name('villa-pages.global.edit');
+    Route::put('villa-pages/global', [VillaPageController::class, 'globalPageUpdate'])->name('villa-pages.global.update');
+    Route::get('villa-pages/{villa}', [VillaPageController::class, 'individualPageEdit'])->name('villa-pages.individual.edit');
+    Route::put('villa-pages/{villa}', [VillaPageController::class, 'individualPageUpdate'])->name('villa-pages.individual.update');
+    Route::post('villa-pages/{villa}/hero-upload', [VillaPageController::class, 'uploadHeroImage'])->name('villa-pages.hero.upload');
+    Route::post('villa-pages/{villa}/room-upload', [VillaPageController::class, 'uploadRoomImage'])->name('villa-pages.room.upload');
+    Route::post('villa-pages/{villa}/gallery-upload', [VillaPageController::class, 'uploadGalleryImages'])->name('villa-pages.gallery.upload');
+    Route::delete('villa-pages/{villa}/gallery/{image}', [VillaPageController::class, 'deleteGalleryImage'])->name('villa-pages.gallery.delete');
+    Route::post('villa-pages/{villa}/gallery-reorder', [VillaPageController::class, 'reorderGallery'])->name('villa-pages.gallery.reorder');
+    Route::post('villa-pages/{villa}/rates', [VillaPageController::class, 'storeRate'])->name('villa-pages.rates.store');
+    Route::put('villa-pages/{villa}/rates/{rate}', [VillaPageController::class, 'updateRate'])->name('villa-pages.rates.update');
+    Route::delete('villa-pages/{villa}/rates/{rate}', [VillaPageController::class, 'deleteRate'])->name('villa-pages.rates.delete');
 });
